@@ -1,3 +1,4 @@
+[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=13363377)
 # Object-Oriented Programming (OOP) Practical Session
 
 In this practical session, we will explore the fundamentals of Object-Oriented Programming (OOP) using Minecraft mechanics as analogies. Just like Minecraft blocks and tools have unique properties and interactions, we'll learn about classes, objects, encapsulation, inheritance, and polymorphism in the context of programming.
