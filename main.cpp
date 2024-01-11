@@ -10,15 +10,9 @@ public:
 
     Chest() : lockStatus(true) {}
 
-    void lock() {
-        lockStatus = true;
-        cout << "Chest is locked." << endl;
-    }
+    void lock() {lockStatus = true; cout << "Chest is locked." << endl;}
 
-    void unlock() {
-        lockStatus = false;
-        cout << "Chest is unlocked." << endl;
-    }
+    void unlock() {lockStatus = false; cout << "Chest is unlocked." << endl;}
 
     void addItem(string item) {
         if (!lockStatus) {
@@ -39,18 +33,9 @@ public:
                 }
             }
         } 
-        else{
-            cout << "Chest is locked!" << endl;
-        }   
+        else{cout << "Chest is locked!" << endl;}   
     }
-    void printChestItem(){
-        cout << "Chest Content:" << endl << content << endl;
-    }
-};
-
-    void printChestItem() {
-        cout << "Chest Content:" << endl << content << endl;
-    }
+    void printChestItem(){cout << "Chest Content:" << endl << content << endl;}
 };
 
 class Block {
@@ -62,16 +47,27 @@ public:
     Block(string n, string t, float h) : name(n), texture(t), hardness(h) {}
 
     void print_properties() {
-        cout << "Name: " << name << endl;
-        cout << "Texture: " << texture << endl;
-        cout << "Hardness: " << hardness << endl;
+        
+        string block;
+        cout << "Enter block name: ";
+        cin >> block;
+        if(block == Block){
+            cout << "Name: " << Block.name << endl;
+            cout << "Texture: " << Block.texture << endl;
+            cout << "Hardness: " << Block.hardness << endl;
+        }
+        
     }
 };
 
 int main() {
     Block dirt("Dirt", "Brown", 0.5);
     Block stone("Stone", "Grey", 1.5);
-    Chest chest;
+    
+
+    return 0;
+}
+//Chest chest;
     int choice;
 
     while (true) {
@@ -131,9 +127,5 @@ int main() {
                 cout << "Invalid choice. Try again." << endl;
         }
     }
-
-    return 0;
-}
-
 // gcc main.cpp -o main.o -lstdc++
 // ./main.o
