@@ -4,20 +4,22 @@
 using namespace std;
 
 class Chest {
-
 public:
     string content;
     bool lockStatus;
-    Chest() : lockStatus(true) {} 
+
+    Chest() : lockStatus(true) {}
 
     void lock() {
         lockStatus = true;
         cout << "Chest is locked." << endl;
     }
+
     void unlock() {
         lockStatus = false;
         cout << "Chest is unlocked." << endl;
     }
+
     void addItem(string item) {
         if (!lockStatus) {
             content += item + "\n";
@@ -27,6 +29,7 @@ public:
             cout << "Chest is locked!" << endl;
         }
     }
+
     void deleteItem(string *item){
         if(!lockStatus){
             for(int i=0;i != '/0';i++){
@@ -35,9 +38,17 @@ public:
                     cout << "Item " << *item << "is removed" << endl;
                 }
             }
-        }    
+        } 
+        else{
+            cout << "Chest is locked!" << endl;
+        }   
     }
     void printChestItem(){
+        cout << "Chest Content:" << endl << content << endl;
+    }
+};
+
+    void printChestItem() {
         cout << "Chest Content:" << endl << content << endl;
     }
 };
@@ -48,10 +59,9 @@ public:
     string texture;
     float hardness;
 
-    // Konstructor
     Block(string n, string t, float h) : name(n), texture(t), hardness(h) {}
 
-    void print_properties(*block_name) {
+    void print_properties() {
         cout << "Name: " << name << endl;
         cout << "Texture: " << texture << endl;
         cout << "Hardness: " << hardness << endl;
@@ -61,8 +71,9 @@ public:
 int main() {
     Block dirt("Dirt", "Brown", 0.5);
     Block stone("Stone", "Grey", 1.5);
-    int choice = 0;
     Chest chest;
+    int choice;
+
     while (true) {
         cout << "1 - Print Chest Content\n";
         cout << "2 - Add Item to Chest\n";
@@ -81,7 +92,7 @@ int main() {
             case 2: {
                 string item;
                 cout << "Enter item to add: ";
-                cin.ignore();
+                cin.ignore(); // Clear newline character from previous input
                 getline(cin, item);
                 chest.addItem(item);
                 break;
@@ -90,6 +101,7 @@ int main() {
             case 3: {
                 string item;
                 cout << "Enter item to delete: ";
+                cin.ignore(); // Clear newline character from previous input
                 getline(cin, item);
                 chest.deleteItem(item);
                 break;
