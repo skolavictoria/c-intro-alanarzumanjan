@@ -1,10 +1,9 @@
-TARGET=main
+TARGET=chest
 
 obj_file=$(TARGET).o
 compile=$(TARGET).cpp
 
 CC=gcc
-CFLAGS=-lm
 
 compile:
 	$(CC) $(compile) -o $(obj_file) -lstdc++
