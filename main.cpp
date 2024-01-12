@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
-#include <stdio.h>
+#include <vector>
 
 using namespace std;
 
 class Block {
-private: 
+private:
     float hp;
     float modifier = 1;
 
@@ -15,69 +15,90 @@ public:
     float hardness;
     float x, y, z;
 
-    // Constructor
-    Block(string n, string t, float h, float x, float y, float z) 
-    : name(n), texture(t), hardness(h), x(x), y(y), z(z), hp(100) {}
+    Block(string n, string t, float h, float x, float y, float z)
+        : name(n), texture(t), hardness(h), x(x), y(y), z(z), hp(100) {}
 
-    float get_hp() {
-        return hp;
-    }
+    float get_hp() const { return hp; }
 
-    void apply_dmg(int val) {
-        hp -= val * modifier + 12;
-    }
+    void apply_dmg(int val) { hp -= val * modifier + 12; }
 
-    void print_properties() {
-        cout << "Block: " << name 
-             << ", Texture: " << texture 
-             << ", Hardness: " << hardness 
-             << ", HP: " << get_hp() << endl;
+    void print_properties(string block) const {
+        cout << "Block: " << block.name
+             << ", Texture: " << block.texture
+             << ", Hardness: " << block.hardness
+             << ", HP: " << block.hp << endl;
     }
 };
 
-class Chest {
+class Item {
 public:
-    string content;
+    string name;
+    string description;
+
+    Item(string n, string d) : name(n), description(d) {}
+};
+
+
+class Chest : public Block
+{   
+private:
+    vector<Item> content;
+
+protected:
     bool lockStatus;
 
-    Chest() : lockStatus(true) {}
+public:
+    Chest() : lockStatus(false), Block("Chest", "Chest", 0.5, 1, 1, 1) {}
+    
+    void lock() { lockStatus = true; }
+    void unlock() { lockStatus = false; }
 
-    void lock() { lockStatus = true; cout << "Chest is locked." << endl; }
-
-    void unlock() { lockStatus = false; cout << "Chest is unlocked." << endl; }
-
-    void addItem(const string& item) {
-        if (!lockStatus) {
-            content += item + "\n";
-            cout << "Added " << item << " to the chest." << endl;
-        } else {
-            cout << "Chest is locked!" << endl;
-        }
+    void add_item(string item_n, string item_d) {
+        Item item(item_n, item_d);
+        content.push_back(item);
     }
 
-    // Corrected deleteItem method
-    void deleteItem(const string& item) {
+    void delete_item(string item_name) {
+
+    }
+
+    void show_content() {
         if (!lockStatus) {
-            size_t pos = content.find(item);
-            if (pos != string::npos) {
-                content.erase(pos, item.length() + 1); // +1 for newline
-                cout << "Item " << item << " is removed." << endl;
-            } else {
-                cout << "Item not found." << endl;
+            for (const Item& elem : content) {
+                cout << elem.name << endl;
             }
-        } else {
+        }
+        else {
             cout << "Chest is locked!" << endl;
         }
     }
-
-    void printChestItem() { cout << "Chest Content:" << endl << content << endl; }
 };
 
-int main() {
-    Block dirt("Dirt", "Brown", 0.5, 10, 10, 10);
-    Block stone("Stone", "Grey", 1.5, 10, 10, 10);
-    Chest chest;
+class EnderChest : public Chest
+{
+    static vector<Item> static_content;
 
+public:
+    EnderChest() : Chest() { name = "Ender Chest"; texture = "Ender Chest"; hardness = 0.5; }
+
+    void add_item(const Item& item) { static_content.push_back(item); }
+
+    void show_content() {
+        if (!lockStatus) {
+            for (const Item& elem : static_content) {
+                cout << elem.name << endl;
+            }
+        }
+        else {
+            cout << "Chest is locked" << endl;
+        }
+    }
+};
+
+vector<Item> EnderChest::static_content;
+
+int main() {
+    Chest chest;
     int choice;
 
     while (true) {
@@ -89,52 +110,59 @@ int main() {
         cout << "6 - Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-        cin.ignore(); // Clear newline character from previous input
+        cout << "\n";
 
         switch (choice) {
-            case 1:
-                chest.printChestItem();
-                break;
+        case 1:
+            chest.show_content();
+            break;
+        
+        case 2: {
+            string item_name;
+            string item_description;
+            
+            cout << "Enter item name: ";
+            cin >> item_name;
+            
+            cout << "Enter item description: ";
+            cin >> item_description;
+            
+            chest.add_item(item_name, item_description);
+            break;
+        }
 
-            case 2: {
-                string item;
-                cout << "Enter item to add: ";
-                getline(cin, item);
-                chest.addItem(item);
-                break;
+
+        case 3: {
+            string item_name;
+            cout << "Enter item name to delete: ";
+            cin >> item_name;
+            chest.delete_item(item_name);
+            break;
+        }
+
+        case 4: {
+            if (chest.lockStatus()) {
+                chest.unlock();
             }
-
-            case 3: {
-                string item;
-                cout << "Enter item to delete: ";
-                getline(cin, item);
-                chest.deleteItem(item);
-                break;
+            else {
+                chest.lock();
             }
+            break;
+        }
+        case 5: {
+            string block_name;
+            cout << "Enter block name: ";
+            cin >> block_name;
+            print_properties(block_name);
+            break;
+        }
+        case 6: 
+            return 0;
 
-            case 4:
-                if (chest.lockStatus) {
-                    chest.unlock();
-                } else {
-                    chest.lock();
-                }
-                break;
-
-            case 5:
-                cout << "Properties of Dirt Block:" << endl;
-                dirt.print_properties();
-                cout << "\nProperties of Stone Block:" << endl;
-                stone.print_properties();
-                break;
-
-            case 6:
-                return 0;
-
-            default:
-                cout << "Invalid choice. Try again." << endl;
+        default:
+            cout << "Invalid choice. Try again." << endl;
         }
     }
 }
-
 // gcc main.cpp -o main.o -lstdc++
 // ./main.o
