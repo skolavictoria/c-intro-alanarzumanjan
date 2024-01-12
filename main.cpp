@@ -22,12 +22,13 @@ public:
 
     void apply_dmg(int val) { hp -= val * modifier + 12; }
 
-    void print_properties(string block) const {
-        cout << "Block: " << block.name
-             << ", Texture: " << block.texture
-             << ", Hardness: " << block.hardness
-             << ", HP: " << block.hp << endl;
+    void print_properties() const {
+        cout << "Block: " << name
+            << ", Texture: " << texture
+            << ", Hardness: " << hardness
+            << ", HP: " << hp << endl;
     }
+
 };
 
 class Item {
@@ -50,14 +51,13 @@ protected:
 public:
     Chest() : lockStatus(false), Block("Chest", "Chest", 0.5, 1, 1, 1) {}
     
-    void lock() { lockStatus = true; }
-    void unlock() { lockStatus = false; }
-
+    void lock() { lockStatus = true; cout << "Chest is locked" << endl;}
+    void unlock() { lockStatus = false; cout << "Chest is unlocked" << endl;}
+    bool isLocked() const { return lockStatus; }
     void add_item(string item_n, string item_d) {
         Item item(item_n, item_d);
         content.push_back(item);
     }
-
     void delete_item(string item_name) {
 
     }
@@ -120,14 +120,12 @@ int main() {
         case 2: {
             string item_name;
             string item_description;
-            
             cout << "Enter item name: ";
             cin >> item_name;
-            
             cout << "Enter item description: ";
             cin >> item_description;
-            
             chest.add_item(item_name, item_description);
+
             break;
         }
 
@@ -137,26 +135,33 @@ int main() {
             cout << "Enter item name to delete: ";
             cin >> item_name;
             chest.delete_item(item_name);
+
             break;
         }
 
         case 4: {
-            if (chest.lockStatus()) {
+            if (chest.isLocked()) {
                 chest.unlock();
             }
             else {
                 chest.lock();
             }
+
             break;
         }
         case 5: {
             string block_name;
             cout << "Enter block name: ";
             cin >> block_name;
-            print_properties(block_name);
+            Block block("Name", "Texture", 0.0, 0.0, 0.0, 0.0);
+            block.name = block_name; 
+            block.print_properties();
+
             break;
         }
+
         case 6: 
+
             return 0;
 
         default:
