@@ -16,7 +16,6 @@ public:
 
 class Chest: public Block
 {
-int size;
 vector<Item> content;
 
 protected:
@@ -71,7 +70,6 @@ public:
 
 
 vector<Item> EnderChest::static_content;
-int a = 0;
 
 
 int main()
