@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 class Item
 {
 public:
@@ -16,6 +17,8 @@ public:
 
 class Chest: public Block
 {
+
+int size;
 vector<Item> content;
 
 protected:
@@ -70,6 +73,7 @@ public:
 
 
 vector<Item> EnderChest::static_content;
+int a = 0;
 
 
 int main()
@@ -79,34 +83,34 @@ int main()
     EnderChest e_chest0;
     EnderChest e_chest1;
     EnderChest e_chest2;
-
-    cout << "Chest 0 content: ";
+    cout << "Chest 0 content:" << endl;
     chest0.show_content();
     chest0.add_item(Item{"Sword","A sword made of steel"});
-    cout << "\nChest 0 content: ";
+    cout << "Chest 0 content:" << endl;
     chest0.show_content();
     chest0.add_item(Item{"Shield","A shield made of steel"});
-    cout << "\nChest 0 content: ";
+    cout << "Chest 0 content:" << endl;
     chest0.show_content();
     chest0.lock();
-    cout << "\nChest 0 content: ";
+    cout << "Chest 0 content:" << endl;
     chest0.show_content();
     chest0.unlock();
-    cout << "\nChest 0 content: ";
+    cout << "Chest 0 content:" << endl;
     chest0.show_content();
     chest1.add_item(Item{"wand","magic puff"});
-    cout << "\nChest 1 content: ";
+    cout << "Chest 1 content:" << endl;
     chest1.show_content();
 
-    cout << "\nEnder Chest" << endl;
+    cout << "Ender Chest" << endl;
     e_chest0.add_item(Item{"wand","magic puff"});
-    cout << "\nEnder Chest 1 content: ";
+    cout << "Ender Chest 1 content:" << endl;
     e_chest1.show_content();
     e_chest0.add_item(Item{"bow","weee"});
-    cout << "\nEnder Chest 2 content: ";
+    cout << "Ender Chest 2 content:" << endl;
     e_chest2.show_content();
     
 
 
     return 0;
 }
+

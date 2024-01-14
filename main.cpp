@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stdio.h>
 
 using namespace std;
 class Block
@@ -36,6 +37,8 @@ int not_main()
     << ", Hardness: " << dirt.hardness 
     << ", HP: " << dirt.get_hp()
     << endl;
+
+    printf("Block: %s, Texture: %s, Hardness: %f, HP: %f\n",dirt.name.c_str(),dirt.texture.c_str(),dirt.hardness,dirt.get_hp());
 
     dirt.apply_dmg(12);
 
